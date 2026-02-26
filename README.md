@@ -7,7 +7,7 @@ The system processes structured Excel survey files, where the actual column head
 The platform dynamically aggregates the processed data into interactive charts and dashboards, enabling real-time demographic and behavioral analysis.
 
 ## 🚀 Live Demo
-URL: [http://13.218.123.136/](http://13.218.123.136/)  
+URL: [http://13.218.123.136/](DEMO)  
 
 ## 🛠 Tech Stack
 - Frontend: React.js, Tailwind CSS, Chart.js/Recharts, Axios
