@@ -1,16 +1,29 @@
-# React + Vite
+# 📊 Survey Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack data visualization platform built to transform raw Excel survey data into actionable insights. This project features a React-based frontend and a Django REST Framework backend, deployed on AWS EC2 using Nginx.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+URL: [http://13.218.123.136/](http://13.218.123.136/)  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+- Frontend: React.js, Tailwind CSS, Chart.js/Recharts, Axios
+- Backend: Django, Django REST Framework, Pandas (Data Processing)
+- Database: SQLite (Development/MVP)
+- Deployment: AWS EC2 (Ubuntu), Nginx, Gunicorn/Nohup
 
-## React Compiler
+## ✨ Key Features
+- Excel Import: Seamlessly upload .xlsx survey results.
+- Dynamic Analytics: Automated calculation of demographics and response trends.
+- Live Status Monitoring: Real-time backend connectivity check.
+- Responsive Design: Optimized for both desktop and mobile viewing.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Project Structure
+```text
+├── survey_backend/          # Django Project
+│   ├── analytics/           # API Logic & Excel Processing
+│   ├── core/                # Settings & Routing
+│   └── manage.py
+├── survey_frontend/         # React Project
+│   ├── src/                 # Components & App Logic
+│   └── build/               # Production Build Files
+└── nginx/                   # Configuration files
