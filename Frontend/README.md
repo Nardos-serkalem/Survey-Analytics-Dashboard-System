@@ -2,6 +2,10 @@
 
 A full-stack data visualization platform built to transform raw Excel survey data into actionable insights. This project features a React-based frontend and a Django REST Framework backend, deployed on AWS EC2 using Nginx.
 
+The system processes structured Excel survey files, where the actual column headers were located in the second column of the dataset rather than the first row. I specifically configured the import logic to reference the second column in order to correctly map and interpret the expected field names based on the file’s unique structure. This ensured accurate data parsing and prevented schema mismatches during ingestion.
+
+The platform dynamically aggregates the processed data into interactive charts and dashboards, enabling real-time demographic and behavioral analysis.
+
 ## 🚀 Live Demo
 URL: [http://13.218.123.136/](http://13.218.123.136/)  
 
