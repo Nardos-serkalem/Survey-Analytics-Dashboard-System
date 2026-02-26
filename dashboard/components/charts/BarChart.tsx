@@ -164,13 +164,13 @@ export function ChartBarMultiple() {
       <CardContent>
         <ChartContainer config={chartConfig2}>
           <BarChart accessibilityLayer data={chartData2}>
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={true} />
 
             <XAxis
               dataKey="category"
               tickLine={false}
               tickMargin={10}
-              axisLine={false}
+              axisLine={true}
             />
 
             <ChartTooltip
