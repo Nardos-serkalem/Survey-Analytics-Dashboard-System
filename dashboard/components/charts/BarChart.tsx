@@ -153,7 +153,7 @@ const chartConfig2 = {
 
 export function ChartBarMultiple() {
   return (
-    <Card className="h-8">
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>Preference Overview</CardTitle>
         <CardDescription>

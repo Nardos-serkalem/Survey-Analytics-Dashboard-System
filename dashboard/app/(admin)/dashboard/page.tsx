@@ -38,7 +38,6 @@ export default function Page() {
         <div className="col-span-12 lg:col-span-4  bg-slate-800 rounded-2xl  text-white text-2xl">
           <ChartPieLabel/>
         </div>
-
       </div>
     </div>
 
