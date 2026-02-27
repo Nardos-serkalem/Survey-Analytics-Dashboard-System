@@ -41,7 +41,7 @@ A professional Django-based data visualization platform that transforms raw surv
 
 ### 1. Clone the Repository
 ```bash
-git clone[ [https://github.com/Nardos-serkalem/Survey-Analytics-Dashboard-System.git]](https://github.com/Nardos-serkalem/Survey-Analytics-Dashboard-System.git)
+git clone https://github.com/Nardos-serkalem/Survey-Analytics-Dashboard-System.git
 cd Survey-Analytics-Dashboard-System
 
 ```
