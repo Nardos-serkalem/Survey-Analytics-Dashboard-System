@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1b1a17;
+  --ink-soft: #51483e;
+  --sand: #f4efe7;
+  --sand-dark: #e5dccf;
+  --accent: #d96b2c;
+  --accent-soft: #f0b478;
+  --emerald: #1f7a5a;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--ink);
+  background-color: var(--sand);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(243, 215, 177, 0.65), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(210, 126, 63, 0.18), transparent 40%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.02) 0,
+      rgba(0, 0, 0, 0.02) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    linear-gradient(180deg, #f7f2ea 0%, #efe7da 100%);
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(64, 84, 120, 0.45), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(31, 122, 90, 0.2), transparent 40%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0,
+      rgba(255, 255, 255, 0.02) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    linear-gradient(180deg, #0f1115 0%, #171a20 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

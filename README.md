@@ -1,33 +1,115 @@
-# 📊 Survey Analytics Dashboard
 
-A full-stack data visualization platform built to transform raw Excel survey data into actionable insights. This project features a React-based frontend and a Django REST Framework backend, deployed on AWS EC2 using Nginx.
+#Survey Analytics Dashboard (Frontend)
 
-The system processes structured Excel survey files, where the actual column headers were located in the second row of the dataset rather than the first row. I specifically configured the import logic to reference the second column in order to correctly map and interpret the expected field names based on the file’s unique structure. This ensured accurate data parsing and prevented schema mismatches during ingestion.
+This project delivers a structured analytics dashboard using mock, aggregated survey data. It focuses on information hierarchy, reusable components, and API-ready data shapes.
 
-The platform dynamically aggregates the processed data into interactive charts and dashboards, enabling real-time demographic and behavioral analysis.
+##What This Dashboard Answers
 
-## 🚀 Live Demo
-URL: [DEMO](http://13.218.123.136/)  
+1 How many people responded?
+2 Who are they (demographics)?
+3 Do they know YNE?
+4 Will they participate?
+5 What do they prefer?
 
-## 🛠 Tech Stack
-- Frontend: React.js, Tailwind CSS, Chart.js/Recharts, Axios
-- Backend: Django, Django REST Framework, Pandas (Data Processing)
-- Database: SQLite (Development/MVP)
-- Deployment: AWS EC2 (Ubuntu), Nginx, Gunicorn/Nohup
+##Frontend Information Architecture
 
-## ✨ Key Features
-- Excel Import: Seamlessly upload .xlsx survey results.
-- Dynamic Analytics: Automated calculation of demographics and response trends.
-- Live Status Monitoring: Real-time backend connectivity check.
-- Responsive Design: Optimized for both desktop and mobile viewing.
+-Executive overview KPI row (total respondents, awareness %, likely to join %, Telegram %)
+-Demographics (gender, age, education, employment, subcity)
+-Awareness & outreach (heard about YNE, channels, Telegram usage)
+-Participation insights (likelihood, barriers, motivations, certification impact)
+-Training preferences (delivery type, time, frequency, topics)
+-Qualitative data is summarized as a count only
 
-## 📂 Project Structure
-```text
-├── survey_backend/          # Django Project
-│   ├── analytics/           # API Logic & Excel Processing
-│   ├── core/                # Settings & Routing
-│   └── manage.py
-├── survey_frontend/         # React Project
-│   ├── src/                 # Components & App Logic
-│   └── build/               # Production Build Files
-└── nginx/                   # Configuration files
+##Data Modeling 
+
+Key tables to support multi-select questions and aggregation:
+
+-respondent (id, age, gender, subcity, education_level, employment_status, area_of_collection, created_at)
+-question (id, label, type, section)
+-option (id, question_id, label)
+-response (id, respondent_id, question_id)
+-response_option (response_id, option_id) for multi-select
+-response_text (response_id, value) for open text
+
+Multi-select aggregation example: count selections by option_id.
+
+##Table Structure Explanation
+
+respondent
+-One row per person who answered the survey.
+-Stores demographics and collection context.
+
+question
+-One row per question in the survey.
+-Type is single, multi, or text.
+
+option
+-Stores answer choices for single or multi questions.
+-Linked to question by question_id.
+
+response
+-Connects a respondent to a question.
+-One response row per question answered.
+
+response_option
+-Stores selected options for single or multi responses.
+-One row per selected option.
+
+response_text
+-Stores free-text answers.
+-Kept separate to avoid mixing with quantitative analytics.
+
+##API Design 
+-GET /api/overview
+	-Returns KPI totals and percentages
+-GET /api/demographics
+	-Gender, age groups, subcity, education, employment
+-GET /api/awareness
+	-Awareness rate, channels, Telegram usage
+-GET /api/digital-access
+	-Internet access methods, training platforms
+-GET /api/participation
+	-Likelihood, barriers, motivations, certification impact
+-GET /api/training-preferences
+	-Delivery type, preferred time, frequency, top topics
+-GET /api/qualitative-summary
+	-Count of open feedback responses only
+
+Frontend consumes aggregated objects directly (no raw responses).
+
+##Security 
+
+ -Authentication: JWT(recommended)or session-based login
+ -Role-based access: admin vs viewer
+ -Input validation: schema validation for all requests
+ -Rate limiting for public endpoints -this increases performance and availability
+ -Audit logs for admin actions
+ -AllowListing 
+ -Use api gateway this creates a centralized managment 
+ -use https for api communication
+ -OAuth2 and webauthentication
+ -api keys (rotate them periodically) 
+ -Error handling(don't expose the internal code )
+
+###FRONTEND STRUCTURE
+
+src/
+	components/
+		ChartCard.jsx
+		Header.jsx
+		StatCard.jsx
+	mock/
+		mockdata.jsx
+	pages/
+		Dashboard.jsx
+	Sections/
+		Awareness.jsx
+		Demographics.jsx
+		DigitalAccess.jsx
+		Participation.jsx
+		Training.jsx
+    
+
+##Run Locally
+npm install
+npm run dev
