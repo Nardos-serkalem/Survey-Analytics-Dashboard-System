@@ -1,14 +1,20 @@
 import ChartCard from "@/components/chartCard";
 import { ChartBarMultiple } from "@/components/charts/BarChart";
 import { ChartPieLabel, ChartRadialStacked } from "@/components/charts/pieChart";
+import Image from "next/image";
 
 export default function Page() {
   return (
     <div className="min-h-screen bg-slate-900 p-6">
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 grid-rows-6 gap-8">
 
-        <div className="col-span-12 lg:col-span-4 h-60 bg-slate-800 rounded-2xl flex items-center justify-center text-white text-2xl">
-          1
+        <div className="col-span-12 row-span-1 lg:col-span-4  bg-slate-800 rounded-2xl flex items-center justify-around  text-white text-2xl ">
+          <div className="w-[40%]">
+            <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
+            <h1>Abebe Kebede</h1>
+            <p className="text-lg text-muted-foreground">Here's a quick overview of your dashboard.</p>
+          </div>
+            <Image className=" w-[40%] drop-shadow-xl drop-shadow-taupe-50" src="/assets/image.png" width={100} height={100} alt="Dashboard image"></Image>
         </div>
 
         {/* 2 - Top Middle */}
@@ -19,12 +25,12 @@ export default function Page() {
         </div>
 
         {/* 3 - Top Right */}
-        <div className="col-span-12 md:col-span-6 lg:col-span-5  bg-slate-800 rounded-2xl  text-white text-2xl">
+        <div className="col-span-12 md:col-span-6 lg:col-span-5  row-span-2 bg-slate-800 rounded-2xl  text-white text-2xl">
            <ChartCard/>
         </div>
 
         {/* 4 - Big Bottom Left */}
-        <div className="col-span-12 lg:col-span-8 max-h-20 bg-slate-800 rounded-2xl  text-white text-2xl">
+        <div className="col-span-12 lg:col-span-7 row-span-2 bg-slate-800 rounded-2xl  text-white text-2xl">
           <ChartBarMultiple/>
         </div>
 

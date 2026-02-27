@@ -15,7 +15,6 @@ const ChartCard = () => {
                 <SelectDemo onChange= {setSelected}/>
             </div>
             {selected === "age" && <ChartBarLabelCustom/>}
-            {selected === "gender" && <ChartPieDonutText/>}
             {selected === "subSity" && <ChartBarLabelCustom/>}
             {selected === "education" && <ChartPieDonutText/>}
         </div>

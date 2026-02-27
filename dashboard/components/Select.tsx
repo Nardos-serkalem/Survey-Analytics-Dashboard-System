@@ -18,7 +18,6 @@ export function SelectDemo({onChange}: {onChange: (value: string) => void}) {
                 <SelectGroup>
                     <SelectLabel>Fruits</SelectLabel>
                     <SelectItem value="age">Age Distribution</SelectItem>
-                    <SelectItem value="gender">Gender</SelectItem>
                     <SelectItem value="subSity">Location</SelectItem>
                     <SelectItem value="education">Education Level</SelectItem>
                 </SelectGroup>
