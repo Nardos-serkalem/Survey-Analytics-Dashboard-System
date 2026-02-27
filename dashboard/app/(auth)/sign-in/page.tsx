@@ -22,10 +22,10 @@ const SignIn = () => {
     })
     const onSubmit  = async (data :SignInFormData) => {
         try {
-        //    const result = await signInWithEmail(data);
-        //    if (result.success) {
-        //        router.push("/");
-        //    }
+           const result = await signInWithEmail(data);
+           if (result.success) {
+               router.push("/");
+           }
         }catch (e){
 
             console.error(e);
