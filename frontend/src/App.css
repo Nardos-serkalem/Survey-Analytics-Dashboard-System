@@ -1,0 +1,25 @@
+/* Base Layout Utility */
+#root {
+  width: 100%;
+}
+
+.stats-grid>.card {
+  padding: 2.5rem 1.5rem;
+}
+
+.border-dashed {
+  border: 2px dashed var(--border-secondary);
+}
+
+/* Custom Scrollbar for Dashboard */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
