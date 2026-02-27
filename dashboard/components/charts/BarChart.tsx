@@ -45,7 +45,7 @@ const chartConfig = {
 
 export function ChartBarLabelCustom() {
     return (
-        <Card>
+        <Card className="h-full">
             <CardHeader>
                 <CardTitle>Bar Chart - Custom Label</CardTitle>
                 <CardDescription>January - June 2024</CardDescription>
@@ -168,9 +168,13 @@ export function ChartBarMultiple() {
 
             <XAxis
               dataKey="category"
-              tickLine={false}
-              tickMargin={10}
+              tickLine={true}
+              tickMargin={20}
               axisLine={true}
+            />
+            <YAxis 
+             domain={[0,'auto']}
+              type="number"
             />
 
             <ChartTooltip
