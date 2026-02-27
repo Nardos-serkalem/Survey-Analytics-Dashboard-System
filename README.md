@@ -30,7 +30,47 @@ A professional Django-based data visualization platform that transforms raw surv
 │   ├── management/        # Data import scripts
 │   └── templates/         # Dashboard HTML
 ├── survey_analytics/      # Project configuration (settings, wsgi, urls)
-├── DNA TECH DATA.csv      # Source data file
+├── data
+|    |-DNA TECH DATA.xslx     # Source data file
 ├── manage.py
 ├── Procfile               # Deployment instructions for Render
 └── requirements.txt       # Python dependencies
+```
+
+## 💻 How to Run Locally
+
+### 1. Clone the Repository
+```bash
+git clone[ https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/Nardos-serkalem/Survey-Analytics-Dashboard-System.git)
+cd Survey-Analytics-Dashboard-System
+
+```
+##3 Set Up Virtual Environment
+```bash
+python -m venv venv
+```
+#### Windows:
+```bash
+venv\Scripts\activate
+```
+#### Mac/Linux:
+```bash
+source venv/bin/activate
+```
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+### Initialize Database & Import Data
+```bash
+python manage.py migrate
+python manage.py import_survey   
+python manage.py createsuperuser
+```
+### Launch the App
+```bash
+python manage.py runserver
+```
+Visit the app at: [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
+
+
