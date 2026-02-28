@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { Label, LabelList, Pie, PieChart, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
 import {
     Card,
@@ -129,57 +129,97 @@ export function ChartPieDonutText() {
 }
 
 
-export const description2 = "A pie chart with a label"
 
 const chartData2 = [
-  { Course: "Graphics", selectors: 275, fill: "var(--color-chrome)" },
-  { Course: "Codding", selectors: 200, fill: "var(--color-safari)" },
-  { Course: "Markating", selectors: 187, fill: "var(--color-firefox)" },
-  { Course: "Social Media", selectors: 173, fill: "var(--color-edge)" },
-  { Course: "other", selectors: 90, fill: "var(--color-other)" },
+  { course: "Graphics", selectors: 275, fill: "var(--chart-1)" },
+  { course: "Coding", selectors: 200, fill: "var(--chart-2)" },
+  { course: "Marketing", selectors: 187, fill: "var(--chart-3)" },
+  { course: "Social Media", selectors: 173, fill: "var(--chart-4)" },
+  { course: "Other", selectors: 90, fill: "var(--chart-5)" },
 ]
 
 const chartConfig2 = {
-  visitors: {
-    label: "Visitors",
+  selectors: {
+    label: "Selectors",
   },
   Graphics: {
     label: "Graphics",
     color: "var(--chart-1)",
   },
-  Codding: {
-    label: "Codding",
+  Coding: {
+    label: "Coding",
     color: "var(--chart-2)",
   },
-  firefox: {
-    label: "Firefox",
+  Marketing: {
+    label: "Marketing",
     color: "var(--chart-3)",
   },
-  edge: {
-    label: "Edge",
+  "Social Media": {
+    label: "Social Media",
     color: "var(--chart-4)",
   },
-  other: {
+  Other: {
     label: "Other",
     color: "var(--chart-5)",
   },
 } satisfies ChartConfig
 
 export function ChartPieLabel() {
+  const totalSelectors = React.useMemo(
+    () => chartData2.reduce((acc, curr) => acc + curr.selectors, 0),
+    []
+  )
+
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="items-center pb-0">
-        <CardTitle> Course  Preference</CardTitle>
-        <CardDescription></CardDescription>
+        <CardTitle>Course Preference</CardTitle>
+        <CardDescription>Distribution of course selections</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig2}
-          className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[250px] pb-0"
+          className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[450px] pb-0"
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData2} dataKey="selectors" label nameKey="Course" />
+            <Pie
+              data={chartData2}
+              dataKey="selectors"
+              nameKey="course"
+              label={({ cx, cy }) => (
+                <text
+                  x={cx}
+                  y={cy}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="fill-foreground text-xl font-bold"
+                >
+                  {totalSelectors.toLocaleString()}
+                  <tspan
+                    x={cx}
+                    y={cy + 20}
+                    className="fill-muted-foreground text-sm"
+                  >
+                    Total Selections
+                  </tspan>
+                </text>
+              )}
+              innerRadius={120}
+              strokeWidth={0}
+            >
+           <LabelList
+                dataKey="course"
+                className="fill-background"
+                stroke="none"
+                fontSize={12}
+                formatter={(value: keyof typeof chartConfig2) =>
+                  chartConfig2[value]?.label
+                }
+              />
+
+            </Pie>
+            
           </PieChart>
         </ChartContainer>
       </CardContent>
@@ -188,7 +228,7 @@ export function ChartPieLabel() {
           {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
         </div>
         <div className="text-muted-foreground leading-none">
-          {/* Showing total visitors for the last 6 months */}
+          Showing course preference distribution among participants
         </div>
       </CardFooter>
     </Card>
@@ -200,7 +240,7 @@ export function ChartPieLabel() {
 
 export const description3 = "A radial chart with stacked sections"
 
-const chartData3 = [{ month: "january", male: 160, female: 270 }]
+const chartData3 = [{ male: 160, female: 270 }]
 
 const chartConfig3 = {
   male: {
