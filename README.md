@@ -64,7 +64,7 @@ pip install -r requirements.txt
 ### Initialize Database & Import Data
 ```bash
 python manage.py migrate
-python manage.py import_survey   
+python manage.py survey   
 python manage.py createsuperuser
 ```
 ### Launch the App
