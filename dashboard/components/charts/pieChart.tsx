@@ -19,113 +19,107 @@ import {
     type ChartConfig,
 } from "@/components/ui/chart"
 
-export const description = "A donut chart with text"
-
 const chartData = [
-  { education: "undergraduate", visitors: 27, fill: "var(--color-undergraduate)" },
-  { education: "postgraduate", visitors: 20, fill: "var(--color-postgraduate)" },
-  { education: "primary", visitors: 28, fill: "var(--color-primary)" },
-  { education: "secondary", visitors: 73, fill: "var(--color-secondary)" },
-  { education: "vocational", visitors: 90, fill: "var(--color-vocational)" },
+  { education: "Undergraduate", visitors: 27, fill: "var(--chart-1)" },
+  { education: "Postgraduate", visitors: 20, fill: "var(--chart-2)" },
+  { education: "Primary", visitors: 28, fill: "var(--chart-3)" },
+  { education: "Secondary", visitors: 73, fill: "var(--chart-4)" },
+  { education: "Vocational", visitors: 90, fill: "var(--chart-5)" },
 ];
 
 const chartConfig = {
   visitors: {
     label: "Students",
   },
-  undergraduate: {
+  Undergraduate: {
     label: "Undergraduate",
     color: "var(--chart-1)",
   },
-  postgraduate: {
+  Postgraduate: {
     label: "Postgraduate",
     color: "var(--chart-2)",
   },
-  primary: {
+  Primary: {
     label: "Primary",
     color: "var(--chart-3)",
   },
-  secondary: {
+  Secondary: {
     label: "Secondary",
     color: "var(--chart-4)",
   },
-  vocational: {
+  Vocational: {
     label: "Vocational",
     color: "var(--chart-5)",
   },
 } satisfies ChartConfig;
 
 export function ChartPieDonutText() {
-    const totalVisitors = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-    }, [])
+  const totalVisitors = React.useMemo(
+    () => chartData.reduce((acc, curr) => acc + curr.visitors, 0),
+    []
+  );
 
-    return (
-        <Card className="flex flex-col h-full">
-            <CardHeader className="items-center pb-0">
-                <CardTitle>Education Level Distribution</CardTitle>
-                <CardDescription>Participants by education level</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 pb-0">
-                <ChartContainer
-                    config={chartConfig}
-                    className="mx-auto aspect-square max-h-[250px]"
+  return (
+    <Card className="flex flex-col h-full">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Education Level Distribution</CardTitle>
+        <CardDescription>Participants by education level</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-1 pb-0">
+        <ChartContainer
+          config={chartConfig}
+          className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[300px] pb-0"
+        >
+          <PieChart>
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            <Pie
+              data={chartData}
+              dataKey="visitors"
+              nameKey="education"
+              label={({ cx, cy }) => (
+                <text
+                  x={cx}
+                  y={cy}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="fill-foreground text-xl font-bold"
                 >
-                    <PieChart>
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                        />
-                        <Pie
-                            data={chartData}
-                            dataKey="visitors"
-                            nameKey="browser"
-                            innerRadius={60}
-                            strokeWidth={5}
-                        >
-                            <Label
-                                content={({ viewBox }) => {
-                                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                                        return (
-                                            <text
-                                                x={viewBox.cx}
-                                                y={viewBox.cy}
-                                                textAnchor="middle"
-                                                dominantBaseline="middle"
-                                            >
-                                                <tspan
-                                                    x={viewBox.cx}
-                                                    y={viewBox.cy}
-                                                    className="fill-foreground text-3xl font-bold"
-                                                >
-                                                    {totalVisitors.toLocaleString()}
-                                                </tspan>
-                                                <tspan
-                                                    x={viewBox.cx}
-                                                    y={(viewBox.cy || 0) + 24}
-                                                    className="fill-muted-foreground"
-                                                >
-                                                    All Participants
-                                                </tspan>
-                                            </text>
-                                        )
-                                    }
-                                }}
-                            />
-                        </Pie>
-                    </PieChart>
-                </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2 leading-none font-medium">
-                      {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
-                </div>
-                <div className="text-muted-foreground leading-none">
-                    Showing education level distribution of participants in the survey
-                </div>
-            </CardFooter>
-        </Card>
-    )
+                  {totalVisitors.toLocaleString()}
+                  <tspan
+                    x={cx}
+                    y={cy + 20}
+                    className="fill-muted-foreground text-sm"
+                  >
+                    Total
+                  </tspan>
+                </text>
+              )}
+              innerRadius={70}
+              strokeWidth={0}
+            >
+              <LabelList
+                dataKey="education"
+                className="fill-background"
+                stroke="none"
+                fontSize={12}
+                formatter={(value: keyof typeof chartConfig) =>
+                  chartConfig[value]?.label
+                }
+              />
+            </Pie>
+          </PieChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col gap-2 text-sm">
+        <div className="flex items-center gap-2 leading-none font-medium">
+          {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
+        </div>
+        <div className="text-muted-foreground leading-none">
+          Showing education level distribution of participants in the survey
+        </div>
+      </CardFooter>
+    </Card>
+  );
 }
 
 
@@ -323,9 +317,9 @@ export function ChartRadialStacked() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
        
-        <div className="text-muted-foreground leading-none">
+        {/* <div className="text-muted-foreground leading-none no">
           Showing total participants for the month of March 2026 with gender distribution
-        </div>
+        </div> */}
       </CardFooter>
     </Card>
   )

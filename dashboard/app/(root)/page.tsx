@@ -5,15 +5,15 @@ import Image from "next/image";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-slate-900 p-6">
+   <div className="min-h-screen p-6 bg-[url('/assets/images/dashboard-bg.jpg')] bg-cover bg-center bg-fixed bg-blend-overlay bg-muted">
       <div className="  grid grid-cols-12 grid-rows-[repeat(auto-fit,minmax(250px,1fr)) gap-6">
-        <div className="col-span-12  lg:col-span-5  row-span-1  bg-slate-800 rounded-2xl flex items-center justify-around  text-white text-2xl ">
-          <div className="w-[40%]">
+        <div className="col-span-12 lg:col-span-5 row-span-1 bg-slate-800 rounded-2xl flex flex-col-reverse lg:flex-row items-center justify-around text-white text-2xl p-5">
+          <div className="lg:w-[40%]">
             <h1 className="text-3xl font-bold mb-2 text-secondary-light">Welcome back</h1>
             <h1>Abebe Kebede</h1>
             <p className="text-lg text-muted-foreground">Here’s a quick overview of your data insights.</p>
           </div>
-            <Image className=" w-[40%]  drop-shadow-xl drop-shadow-taupe-50" src="/assets/image.png" width={100} height={100} alt="Dashboard image"></Image>
+          <Image className="w-[40%] drop-shadow-xl drop-shadow-taupe-50" src="/assets/image.png" width={100} height={100} alt="Dashboard image" />
         </div>
 
         <div className="col-span-12 md:col-span-6 lg:col-span-3 row-span-1 bg-slate-800 rounded-2xl  text-white text-2xl">
