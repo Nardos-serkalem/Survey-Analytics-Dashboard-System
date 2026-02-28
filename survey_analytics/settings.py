@@ -25,9 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-msax$hsnk&0z&+1ehtv+lb@qcpi6s8aeqe!afu8+v*l*mz_lq)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['.onrender.com']
+if ON_RENDER:
+    DEBUG = False
+    ALLOWED_HOSTS = ['.onrender.com']
+    # Production storage
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
