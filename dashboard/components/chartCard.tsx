@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react'
 import {SelectDemo} from "@/components/Select";
-import {AgeBarChart} from "@/components/charts/BarChart";
+import {AgeBarChart, SubCityBarChart} from "@/components/charts/BarChart";
 import {ChartPieDonutText} from "@/components/charts/pieChart";
 
 
@@ -15,7 +15,7 @@ const ChartCard = () => {
                 <SelectDemo onChange= {setSelected}/>
             </div>
             {selected === "age" && <AgeBarChart/>}
-            {/* {selected === "subSity" && <ChartBarLabelCustom/>} */}
+            {selected === "subCity" && <SubCityBarChart/>}
             {selected === "education" && <ChartPieDonutText/>}
         </div>
     )

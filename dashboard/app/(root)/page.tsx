@@ -1,5 +1,5 @@
 import ChartCard from "@/components/chartCard";
-import { ChartBarLabelCustom, ChartBarMultiple } from "@/components/charts/BarChart";
+import { ChartBarMultiple } from "@/components/charts/BarChart";
 import { ChartPieLabel, ChartRadialStacked } from "@/components/charts/pieChart";
 import Image from "next/image";
 

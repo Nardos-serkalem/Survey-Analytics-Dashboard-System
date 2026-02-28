@@ -22,38 +22,38 @@ import {
 export const description = "A donut chart with text"
 
 const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+  { education: "undergraduate", visitors: 27, fill: "var(--color-undergraduate)" },
+  { education: "postgraduate", visitors: 20, fill: "var(--color-postgraduate)" },
+  { education: "primary", visitors: 28, fill: "var(--color-primary)" },
+  { education: "secondary", visitors: 73, fill: "var(--color-secondary)" },
+  { education: "vocational", visitors: 90, fill: "var(--color-vocational)" },
+];
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
-    chrome: {
-        label: "Chrome",
-        color: "var(--chart-1)",
-    },
-    safari: {
-        label: "Safari",
-        color: "var(--chart-2)",
-    },
-    firefox: {
-        label: "Firefox",
-        color: "var(--chart-3)",
-    },
-    edge: {
-        label: "Edge",
-        color: "var(--chart-4)",
-    },
-    other: {
-        label: "Other",
-        color: "var(--chart-5)",
-    },
-} satisfies ChartConfig
+  visitors: {
+    label: "Students",
+  },
+  undergraduate: {
+    label: "Undergraduate",
+    color: "var(--chart-1)",
+  },
+  postgraduate: {
+    label: "Postgraduate",
+    color: "var(--chart-2)",
+  },
+  primary: {
+    label: "Primary",
+    color: "var(--chart-3)",
+  },
+  secondary: {
+    label: "Secondary",
+    color: "var(--chart-4)",
+  },
+  vocational: {
+    label: "Vocational",
+    color: "var(--chart-5)",
+  },
+} satisfies ChartConfig;
 
 export function ChartPieDonutText() {
     const totalVisitors = React.useMemo(() => {
@@ -63,8 +63,8 @@ export function ChartPieDonutText() {
     return (
         <Card className="flex flex-col h-full">
             <CardHeader className="items-center pb-0">
-                <CardTitle>Pie Chart - Donut with Text</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Education Level Distribution</CardTitle>
+                <CardDescription>Participants by education level</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -105,7 +105,7 @@ export function ChartPieDonutText() {
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Visitors
+                                                    All Participants
                                                 </tspan>
                                             </text>
                                         )
@@ -118,10 +118,10 @@ export function ChartPieDonutText() {
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
                 <div className="flex items-center gap-2 leading-none font-medium">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                      {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
                 </div>
                 <div className="text-muted-foreground leading-none">
-                    Showing total visitors for the last 6 months
+                    Showing education level distribution of participants in the survey
                 </div>
             </CardFooter>
         </Card>
@@ -132,23 +132,23 @@ export function ChartPieDonutText() {
 export const description2 = "A pie chart with a label"
 
 const chartData2 = [
-  { socialMedia: "chrome", selectors: 275, fill: "var(--color-chrome)" },
-  { socialMedia: "safari", selectors: 200, fill: "var(--color-safari)" },
-  { socialMedia: "firefox", selectors: 187, fill: "var(--color-firefox)" },
-  { socialMedia: "edge", selectors: 173, fill: "var(--color-edge)" },
-  { socialMedia: "other", selectors: 90, fill: "var(--color-other)" },
+  { Course: "Graphics", selectors: 275, fill: "var(--color-chrome)" },
+  { Course: "Codding", selectors: 200, fill: "var(--color-safari)" },
+  { Course: "Markating", selectors: 187, fill: "var(--color-firefox)" },
+  { Course: "Social Media", selectors: 173, fill: "var(--color-edge)" },
+  { Course: "other", selectors: 90, fill: "var(--color-other)" },
 ]
 
 const chartConfig2 = {
   visitors: {
     label: "Visitors",
   },
-  chrome: {
-    label: "Chrome",
+  Graphics: {
+    label: "Graphics",
     color: "var(--chart-1)",
   },
-  safari: {
-    label: "Safari",
+  Codding: {
+    label: "Codding",
     color: "var(--chart-2)",
   },
   firefox: {
@@ -169,8 +169,8 @@ export function ChartPieLabel() {
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Traning Preference</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle> Course  Preference</CardTitle>
+        <CardDescription></CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -179,16 +179,16 @@ export function ChartPieLabel() {
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData2} dataKey="selectors" label nameKey="socialMedia" />
+            <Pie data={chartData2} dataKey="selectors" label nameKey="Course" />
           </PieChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
+          {/* Showing total visitors for the last 6 months */}
         </div>
       </CardFooter>
     </Card>

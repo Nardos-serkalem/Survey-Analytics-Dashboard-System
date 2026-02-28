@@ -18,18 +18,14 @@ import {
     type ChartConfig,
 } from "@/components/ui/chart"
 
-export const ageDescription = "A bar chart with a custom label"
-
-const data = [
+const AgeData = [
   { ageGroup: "15-20", value: 10 },
   { ageGroup: "21-25", value: 20 },
   { ageGroup: "26-30", value: 15 },
   { ageGroup: "31-35", value: 8 },
   { ageGroup: "36-40", value: 5 },
 ];
-
-
-const chartConfig = {
+const ageChartConfig = {
     age: {
         label: "age",
         color: "#eda42d",
@@ -39,6 +35,31 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
+const subCityData = [
+  { subCity: "Arada", value: 12 },
+  { subCity: "Addis Ketema", value: 18 },
+  { subCity: "Akaky Kaliti", value: 9 },
+  { subCity: "Bole", value: 25 },
+  { subCity: "Gullele", value: 14 },
+  { subCity: "Kirkos", value: 16 },
+  { subCity: "Kolfe Keranio", value: 11 },
+  { subCity: "Lideta", value: 13 },
+  { subCity: "Nifas Silk-Lafto", value: 17 },
+  { subCity: "Yeka", value: 20 },
+];
+const subCityChartConfig = {
+    subCity: {
+        label: "subCity",
+        color: "#0ea5e9",
+    },
+    label: {
+        color: "var(--background)",
+    },
+} satisfies ChartConfig
+
+
+
+
 export function AgeBarChart() {
     return (
         <Card className="h-full">
@@ -47,10 +68,10 @@ export function AgeBarChart() {
                 <CardDescription>Age groups of participants</CardDescription>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig}>
+                <ChartContainer config={ageChartConfig}>
                     <BarChart
                         accessibilityLayer
-                        data={data}
+                        data={AgeData}
                         layout="vertical"
                         margin={{
                             right: 16,
@@ -66,7 +87,7 @@ export function AgeBarChart() {
                             tickFormatter={(value) => value.slice(0, 3)}
                             hide
                         />
-                        <XAxis dataKey="value" type="number" hide />
+                        <XAxis dataKey="value" type="number"  />
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent indicator="line" />}
@@ -84,8 +105,77 @@ export function AgeBarChart() {
                                 className="fill-(--color-label)"
                                 fontSize={12}
                             />
-                            <LabelList
+                            {/* <LabelList
                                 dataKey="age"
+                                position="right"
+                                offset={8}
+                                className="fill-foreground"
+                                fontSize={12}
+                            /> */}
+                        </Bar>
+                    </BarChart>
+                </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+                <div className="text-muted-foreground leading-none">
+                    Showing age distribution of participants in specific age groups
+                </div>
+            </CardFooter>
+        </Card>
+    )
+}
+
+export function SubCityBarChart() {
+    return (
+        <Card className="h-full">
+            <CardHeader>
+                <CardTitle>SubCity Distribution</CardTitle>
+                <CardDescription>Participants in each subcity</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={subCityChartConfig}>
+                    <BarChart
+                        accessibilityLayer
+                        data={subCityData}
+                        layout="vertical"
+                        margin={{
+                            right: 16,
+                        }}
+                    >
+                        <CartesianGrid horizontal={false} />
+                        <YAxis
+                            dataKey="subCity"
+                            type="category"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value) => value.slice(0, 3)}
+                            hide
+                        />
+                        
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent indicator="line" />}
+                        />
+                        <XAxis
+                        domain={[0,'auto']}
+                        type="number"
+                        />
+                        <Bar
+                            dataKey="value"
+                            layout="vertical"
+                            fill="var(--color-subCity)"
+                            radius={4}
+                        >
+                            {/* <LabelList
+                                dataKey="subCity"
+                                position="insideLeft"
+                                offset={8}
+                                className="fill-(--color-label)"
+                                fontSize={12}
+                            /> */}
+                            <LabelList
+                                dataKey="subCity"
                                 position="right"
                                 offset={8}
                                 className="fill-foreground"
@@ -105,8 +195,6 @@ export function AgeBarChart() {
 }
 
 
-
-export const description2 = "A multiple bar chart showing preferences"
 
 const chartData2 = [
   {
@@ -137,11 +225,11 @@ const chartConfig2 = {
   BiWeekly: { label: "Bi-weekly", color: "var(--chart-3)" },
   Daily: { label: "Daily", color: "var(--chart-4)" },
   Weekly: { label: "Weekly", color: "var(--chart-5)" },
-  Monthly: { label: "Monthly", color: "var(--chart-6)" },
-  Telegram: { label: "Telegram", color: "var(--chart-7)" },
-  TikTok: { label: "TikTok", color: "var(--chart-8)" },
-  YouTube: { label: "YouTube", color: "var(--chart-9)" },
-  LinkedIn: { label: "LinkedIn", color: "var(--chart-10)" },
+  Monthly: { label: "Monthly", color: "var(--chart-3)" },
+  Telegram: { label: "Telegram", color: "var(--chart-1)" },
+  TikTok: { label: "TikTok", color: "var(--chart-2)" },
+  YouTube: { label: "YouTube", color: "var(--chart-3)" },
+  LinkedIn: { label: "LinkedIn", color: "var(--chart-4)" },
 } satisfies ChartConfig
 
 export function ChartBarMultiple() {
