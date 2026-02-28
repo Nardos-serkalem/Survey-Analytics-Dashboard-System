@@ -9,9 +9,9 @@ export default function Page() {
       <div className="  grid grid-cols-12 grid-rows-[repeat(auto-fit,minmax(250px,1fr)) gap-6">
         <div className="col-span-12  lg:col-span-5  row-span-1  bg-slate-800 rounded-2xl flex items-center justify-around  text-white text-2xl ">
           <div className="w-[40%]">
-            <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
+            <h1 className="text-3xl font-bold mb-2 text-secondary-light">Welcome back</h1>
             <h1>Abebe Kebede</h1>
-            <p className="text-lg text-muted-foreground">Here's a quick overview of your dashboard.</p>
+            <p className="text-lg text-muted-foreground">Here’s a quick overview of your data insights.</p>
           </div>
             <Image className=" w-[40%]  drop-shadow-xl drop-shadow-taupe-50" src="/assets/image.png" width={100} height={100} alt="Dashboard image"></Image>
         </div>

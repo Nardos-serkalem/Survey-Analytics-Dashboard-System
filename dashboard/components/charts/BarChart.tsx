@@ -18,43 +18,39 @@ import {
     type ChartConfig,
 } from "@/components/ui/chart"
 
-export const description = "A bar chart with a custom label"
+export const ageDescription = "A bar chart with a custom label"
 
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+const data = [
+  { ageGroup: "15-20", value: 10 },
+  { ageGroup: "21-25", value: 20 },
+  { ageGroup: "26-30", value: 15 },
+  { ageGroup: "31-35", value: 8 },
+  { ageGroup: "36-40", value: 5 },
+];
+
 
 const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "var(--chart-2)",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "var(--chart-2)",
+    age: {
+        label: "age",
+        color: "#eda42d",
     },
     label: {
         color: "var(--background)",
     },
 } satisfies ChartConfig
 
-export function ChartBarLabelCustom() {
+export function AgeBarChart() {
     return (
         <Card className="h-full">
             <CardHeader>
-                <CardTitle>Bar Chart - Custom Label</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Age Distribution</CardTitle>
+                <CardDescription>Age groups of participants</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
                     <BarChart
                         accessibilityLayer
-                        data={chartData}
+                        data={data}
                         layout="vertical"
                         margin={{
                             right: 16,
@@ -62,7 +58,7 @@ export function ChartBarLabelCustom() {
                     >
                         <CartesianGrid horizontal={false} />
                         <YAxis
-                            dataKey="month"
+                            dataKey="ageGroup"
                             type="category"
                             tickLine={false}
                             tickMargin={10}
@@ -70,26 +66,26 @@ export function ChartBarLabelCustom() {
                             tickFormatter={(value) => value.slice(0, 3)}
                             hide
                         />
-                        <XAxis dataKey="desktop" type="number" hide />
+                        <XAxis dataKey="value" type="number" hide />
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent indicator="line" />}
                         />
                         <Bar
-                            dataKey="desktop"
+                            dataKey="value"
                             layout="vertical"
-                            fill="var(--color-desktop)"
+                            fill="var(--color-age)"
                             radius={4}
                         >
                             <LabelList
-                                dataKey="month"
+                                dataKey="ageGroup"
                                 position="insideLeft"
                                 offset={8}
                                 className="fill-(--color-label)"
                                 fontSize={12}
                             />
                             <LabelList
-                                dataKey="desktop"
+                                dataKey="age"
                                 position="right"
                                 offset={8}
                                 className="fill-foreground"
@@ -100,11 +96,8 @@ export function ChartBarLabelCustom() {
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 leading-none font-medium">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
                 <div className="text-muted-foreground leading-none">
-                    Showing total visitors for the last 6 months
+                    Showing age distribution of participants in specific age groups
                 </div>
             </CardFooter>
         </Card>
