@@ -9,11 +9,22 @@ import {
     BreadcrumbList, BreadcrumbPage,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import { auth } from '@/lib/better-auth/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-const Layout = ({children} :{children:ReactNode}) => {
+const Layout = async ({children} :{children:ReactNode}) => {
+    const session = await auth.api.getSession({headers: await headers()});
+    if(!session?.user) redirect("/sign-in");
+    const user ={
+        id:session.user.id,
+        name:session.user.name,
+        email:session.user.email,
+        photo:session.user.image,
+    }
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <AppSidebar user={user} />
             <SidebarInset>
                 <header className=" sticky top-1 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <div className="flex items-center gap-2 px-4">
