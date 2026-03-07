@@ -3,10 +3,16 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { checkAuthStatus } from "@/lib/actions/user.actions"
 
+type AuthUser = {
+  authenticated: boolean
+  role?: string
+  is_admin?: boolean
+}
+
 const AuthContext = createContext<any>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<AuthUser | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

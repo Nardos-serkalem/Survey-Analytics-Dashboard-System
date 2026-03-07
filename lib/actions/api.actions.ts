@@ -1,75 +1,62 @@
-"use server"
+'use client'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5001/api/v1"
 
-export const getGender = async(): Promise<Gender[]>=>{
-     try {
-        const res = await fetch("http://localhost:3002/gender",{ cache: "no-store" });
-        const data: Gender[] = await res.json();
-        console.log(data);
-        
-        return data;
-    } catch (err) {
-        console.error("failed to fetch subsity", err);
-       return[]
-    }
-
-}
-export const getCourses = async (): Promise<Course[]> => {
-    try {
-        const res = await fetch("http://localhost:3002/course",{ cache: "no-store" });
-        const data: Course[] = await res.json();
-        return data;
-    } catch (err) {
-        console.error("failed to fetch subsity", err);
-       return[]
-    }
-}
-export const getEducationLevel = async (): Promise<EducationLevel[]> => {
-    try {
-        const res = await fetch("http://localhost:3002/educationLevel",{ cache: "no-store" });
-        const data: EducationLevel[] = await res.json();
-        return data;
-    } catch (err) {
-        console.error("failed to fetch subsity", err);
-       return[]
-    }
-}
-export const preferenceOverview = async (): Promise<PreferenceOverview> => {
+async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   try {
-    const [time, platform, session] = await Promise.all([
-      fetch("http://localhost:3002/time", { cache: "no-store" }).then(
-        (res) => res.json() as Promise<PreferenceItem[]>
-      ),
-      fetch("http://localhost:3002/platform", { cache: "no-store" }).then(
-        (res) => res.json() as Promise<PreferenceItem[]>
-      ),
-      fetch("http://localhost:3002/session", { cache: "no-store" }).then(
-        (res) => res.json() as Promise<PreferenceItem[]>
-      ),
-    ]);
-    return { time, platform, session };
-  } catch (err) {
-    console.error("failed to fetch preference overview", err);
-    return { time: [], platform: [], session: [] };
-  }
-};
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+      ...options,
+      mode:'cors',
+      credentials: "include", 
+            headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+    })
 
-export const getSubCity = async(): Promise<SubCity[]>=>{
-    try{
-     const res = await fetch("http://localhost:3002/subCity", {cache :"no-store"});
-     const data : SubCity[] = await res.json();     
-     return data;
-    }catch(err){
-      console.error("unable to fetch subsity", err);
-      return []
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${endpoint}: ${res.status} ${res.statusText}`)
     }
+    return (await res.json()) as T
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
 }
-export const getAgeDistribution = async():Promise<AgeDistribution[]>=>{
-    try{
-       const res = await fetch("http://localhost:3002/age", {cache :"no-store"});
-       const data : AgeDistribution[] = await res.json();
-       return data;
-    }catch(err){
-        console.log("unable to fetch data");
-        return []
-    }
+
+export const api = {
+  
+  login: (username: string, password: string) =>
+    apiFetch<{ status: string; message: string; role: string }>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+    }),
+
+  checkStatus: () =>
+    apiFetch<{ authenticated: boolean; role: string; is_admin: boolean }>("/auth/status"),
+
+  overview: () =>
+    apiFetch<{ total_respondents: number; awareness_rate: number }>("/analytics/overview"),
+
+  demographics: () =>
+    apiFetch<{
+      genders: Record<string, number>
+      subcities: Record<string, number>
+      education: Record<string, number>
+    }>("/analytics/demographics"),
+
+  preferences: () =>
+    apiFetch<{
+      topics: Record<string, number>
+      timing: Record<string, number>
+      frequency: Record<string, number>
+    }>("/analytics/preferences"),
+
+  participation: () => apiFetch<any>("/analytics/participation"),
+
+  sources: () => apiFetch<any>("/analytics/sources"),
+
+  delivery: () => apiFetch<any>("/analytics/delivery"),
+
+  health: () =>
+    apiFetch<{ status: string; database: string }>("/health"),
 }
