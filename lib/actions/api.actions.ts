@@ -1,4 +1,18 @@
 "use server"
+
+export const getGender = async(): Promise<Gender[]>=>{
+     try {
+        const res = await fetch("http://localhost:3002/gender",{ cache: "no-store" });
+        const data: Gender[] = await res.json();
+        console.log(data);
+        
+        return data;
+    } catch (err) {
+        console.error("failed to fetch subsity", err);
+       return[]
+    }
+
+}
 export const getCourses = async (): Promise<Course[]> => {
     try {
         const res = await fetch("http://localhost:3002/course",{ cache: "no-store" });

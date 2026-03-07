@@ -1,8 +1,22 @@
-import { getAgeDistribution, getCourses, getSubCity } from "@/lib/actions/api.actions"
-import { CourseChart } from "../PieChart";
+import { getAgeDistribution, getCourses, getGender, getSubCity } from "@/lib/actions/api.actions"
+import { CourseChart, GenderDistributionChart } from "../PieChart";
 import { ChartConfig } from "@/components/ui/chart";
 import { AgeDistributionChart, SubCityChart } from "../BarCharts";
 
+export const GenderDistributionCard = async () => {
+    const gender = await getGender();
+    const chartConfig = {
+        male: {
+            label: "male",
+            color: "var(--chart-1)",
+        },
+        female: {
+            label: "female",
+            color: "var(--chart-2)",
+        },
+    } satisfies ChartConfig
+    return <GenderDistributionChart GenderChartData={gender} chartConfig={chartConfig} />
+}
 export const CoursePreferenceCard = async () => {
     const Courses = await getCourses();
     const CourseChartData = Courses.map((course) => ({

@@ -1,5 +1,20 @@
 export { }
+declare  global{
+    type Gender={
+        id:string,
+        month:string,
+        male: number,
+        female: number
+    }
+}
+declare global {
+    type GenderChartProps = {
+        GenderChartData: Omit<Gender[], "id">;
+        chartConfig: ChartConfig;
+    };
+}
 
+/////
 declare global {
     type Course = {
         id: string,
