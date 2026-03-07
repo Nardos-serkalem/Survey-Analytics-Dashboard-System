@@ -3,7 +3,6 @@
   import { useState } from "react"
   import { cn } from "@/lib/utils"
   import { Button } from "@/components/ui/button"
-  import Link from "next/link"
   import { useRouter } from "next/navigation"
   import {
     Card,
@@ -39,21 +38,27 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       credentials: "include", 
       body: JSON.stringify({
-        username: username,
-        password: password,
+        username: 'admin',
+        password: 'admin123',
       }),
     })
-
-    if (!res.ok) {
+    
+    if (res.ok) {
+      alert("Login successful")
+      router.push("/dashboard")
+    } 
+    else if (res.status === 401) {
       alert("Invalid username or password")
-      setIsSubmitting(false)
-      return
+     }
+    else {
+      alert("Login failed")
     }
+    setIsSubmitting(false)
 
-    router.push("/dashboard")
 
   } catch (error) {
     console.error(error)
@@ -93,12 +98,6 @@
                 <Field>
                   <div className="flex items-center">
                     <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <a
-                      href="#"
-                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
                   </div>
 
                   <Input
@@ -114,11 +113,6 @@
                   <Button className="w-full" type="submit">
                     {isSubmitting ? "Logging in..." : "Login"}
                   </Button>
-
-                  <FieldDescription className="text-center">
-                    Don&apos;t have an account?{" "}
-                    <Link href="/auth/sign-up">Sign up</Link>
-                  </FieldDescription>
                 </Field>
 
               </FieldGroup>
