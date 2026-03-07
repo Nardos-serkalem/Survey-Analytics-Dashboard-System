@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card"
 import {
     ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
     type ChartConfig,
@@ -59,6 +61,7 @@ export function SubCityChart({ subCityData, chartConfig }: SubCityChartProps) {
                                 fontSize={12}
                             />
                         </Bar>
+                     <ChartLegend className="mt-8" content={<ChartLegendContent />} />
                     </BarChart>
                 </ChartContainer>
             </CardContent>
@@ -70,8 +73,6 @@ export function SubCityChart({ subCityData, chartConfig }: SubCityChartProps) {
 
 
 export function AgeDistributionChart({ageData, chartConfig} : AgeDistributionChartProps) {
-console.log(chartConfig);
-
   return (
     <Card className="w-[50%]">
       <CardHeader>
@@ -102,7 +103,7 @@ console.log(chartConfig);
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="frequency" fill="var(--color-frequency)" radius={0}>
+            <Bar dataKey="frequency" fill="var(--chart-3)" radius={0}>
               <LabelList
                 position="top"
                 offset={12}

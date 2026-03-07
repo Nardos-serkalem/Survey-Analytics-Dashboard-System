@@ -23,7 +23,16 @@ export const getCourses = async (): Promise<Course[]> => {
        return[]
     }
 }
-
+export const getEducationLevel = async (): Promise<EducationLevel[]> => {
+    try {
+        const res = await fetch("http://localhost:3002/educationLevel",{ cache: "no-store" });
+        const data: EducationLevel[] = await res.json();
+        return data;
+    } catch (err) {
+        console.error("failed to fetch subsity", err);
+       return[]
+    }
+}
 export const getSubCity = async(): Promise<SubCity[]>=>{
     try{
      const res = await fetch("http://localhost:3002/subCity", {cache :"no-store"});

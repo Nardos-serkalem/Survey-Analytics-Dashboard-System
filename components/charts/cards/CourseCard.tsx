@@ -1,5 +1,5 @@
-import { getAgeDistribution, getCourses, getGender, getSubCity } from "@/lib/actions/api.actions"
-import { CourseChart, GenderDistributionChart } from "../PieChart";
+import { getAgeDistribution, getCourses, getEducationLevel, getGender, getSubCity } from "@/lib/actions/api.actions"
+import { CourseChart, EducationLevelChart, GenderDistributionChart } from "../PieChart";
 import { ChartConfig } from "@/components/ui/chart";
 import { AgeDistributionChart, SubCityChart } from "../BarCharts";
 
@@ -19,10 +19,10 @@ export const GenderDistributionCard = async () => {
 }
 export const CoursePreferenceCard = async () => {
     const Courses = await getCourses();
-    const CourseChartData = Courses.map((course) => ({
+    const CourseChartData = Courses.map((course, index) => ({
         training: course.training,
         participants: course.participants,
-        fill: `var(--color-${course.training})`
+        fill: `var(--chart-${index + 1})`
     }))
     const chartConfig: ChartConfig = Courses.reduce((acc, course, index) => {
         acc[course.training] = {
@@ -35,6 +35,25 @@ export const CoursePreferenceCard = async () => {
     } as ChartConfig);
 
     return <CourseChart CourseChartData={CourseChartData} chartConfig={chartConfig} />
+}
+export const EducationLevelCard = async () => {
+    const educationLevelData = await getEducationLevel();
+    const EducationLevelChartData = educationLevelData.map((education) => ({
+        level: education.level,
+        participants: education.participants,
+        fill: `var(--color-${education.level})`
+    }))
+    const chartConfig: ChartConfig = EducationLevelChartData.reduce((acc, course, index) => {
+        acc[course.level] = {
+            label: course.level,
+            color: `var(--chart-${index})`,
+        };
+        return acc;
+    }, {
+        participants: { label: "participants", color: "var(--chart-0)" },
+    } as ChartConfig);
+
+    return <EducationLevelChart EducationLevelChartData={EducationLevelChartData} chartConfig={chartConfig} />
 }
 
 export const SubCityCard = async () => {

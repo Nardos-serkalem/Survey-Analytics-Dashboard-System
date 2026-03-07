@@ -42,6 +42,21 @@ declare global {
         chartConfig: ChartConfig;
     };
 }
+// education 
+declare global {
+    type EducationLevel = {
+        level: string,
+        participants: number,
+        fill:string
+    }
+}
+declare global {
+    type EducationLevelChartProps = {
+        EducationLevelChartData: EducationLevel[];
+        chartConfig: ChartConfig;
+    };
+}
+
 
 //subCity
 declare global {

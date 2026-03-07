@@ -2,83 +2,174 @@
 
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { Label, LabelList, Pie, PieChart, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
     ChartConfig,
-    ChartContainer,
-    ChartLegend,
-    ChartLegendContent,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
-export function CourseChart({ CourseChartData, chartConfig }: CourseChartProps) {    
-    const totalVisitors = React.useMemo(() => {
-        return CourseChartData.reduce((acc, curr) => acc + curr.participants, 0)
-    }, [])
+export function CourseChart({CourseChartData,chartConfig} : CourseChartProps) {
+  const totalVisitors = React.useMemo(() => {
+    return CourseChartData.reduce((acc, curr) => acc + curr.participants, 0)
+  }, [])
+
+  return (
+    <Card className="flex flex-col w-[50%]">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Pie Chart - Donut with Text</CardTitle>
+        <CardDescription>January - June 2024</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-1 pb-0">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-square max-h-[250px]"
+        >
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Pie
+              data={CourseChartData}
+              dataKey="participants"
+              nameKey="training"
+              innerRadius={40}
+              strokeWidth={5}
+            >
+              <Label
+                content={({ viewBox }) => {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    return (
+                      <text
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      >
+                        <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-foreground text-3xl font-bold"
+                        >
+                          {totalVisitors.toLocaleString()}
+                        </tspan>
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 24}
+                          className="fill-muted-foreground"
+                        >
+                          total
+                        </tspan>
+                      </text>
+                    )
+                  }
+                }}
+              />
+            </Pie>
+            <ChartLegend
+              content={<ChartLegendContent nameKey="training" />}
+              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+            />
+          </PieChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col gap-2 text-sm">
+        <div className="flex items-center gap-2 leading-none font-medium">
+          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Showing total visitors for the last 6 months
+        </div>
+      </CardFooter>
+    </Card>
+  )
+}
+
+
+
+
+export function GenderDistributionChart({ GenderChartData, chartConfig }: GenderChartProps) {
+    const totalVisitors = GenderChartData[0].male + GenderChartData[0].female
+
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
-                <CardTitle>Pie Chart - Donut with Text</CardTitle>
+                <CardTitle>Radial Chart - Stacked</CardTitle>
                 <CardDescription>January - June 2024</CardDescription>
             </CardHeader>
-            <CardContent className="flex-1 pb-0">
+            <CardContent className="flex flex-1 items-center pb-0">
                 <ChartContainer
                     config={chartConfig}
-                    className="mx-auto aspect-square max-h-[250px]"
+                    className="mx-auto aspect-square w-full max-w-[250px]"
                 >
-                    <PieChart>
+                    <RadialBarChart
+                        data={GenderChartData}
+                        endAngle={180}
+                        innerRadius={80}
+                        outerRadius={130}
+                    >
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
-                        <Pie
-                            data={CourseChartData}
-                            dataKey="participants"
-                            nameKey="training"
-                            innerRadius={60}
-                            strokeWidth={5}
-                        >
+                        <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                             <Label
                                 content={({ viewBox }) => {
                                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                         return (
-                                            <text
-                                                x={viewBox.cx}
-                                                y={viewBox.cy}
-                                                textAnchor="middle"
-                                                dominantBaseline="middle"
-                                            >
+                                            <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                                                 <tspan
                                                     x={viewBox.cx}
-                                                    y={viewBox.cy}
-                                                    className="fill-foreground text-3xl font-bold"
+                                                    y={(viewBox.cy || 0) - 16}
+                                                    className="fill-foreground text-2xl font-bold"
                                                 >
                                                     {totalVisitors.toLocaleString()}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
-                                                    y={(viewBox.cy || 0) + 24}
+                                                    y={(viewBox.cy || 0) + 4}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Visitors
+                                                    total
                                                 </tspan>
                                             </text>
                                         )
                                     }
                                 }}
                             />
-                        </Pie>
-                    </PieChart>
+                        </PolarRadiusAxis>
+                        <RadialBar
+                            dataKey="male"
+                            stackId="a"
+                            cornerRadius={5}
+                            fill="var(--color-male)"
+                            className="stroke-transparent stroke-2"
+                        />
+                        <RadialBar
+                            dataKey="female"
+                            fill="var(--color-female)"
+                            stackId="a"
+                            cornerRadius={5}
+                            className="stroke-transparent stroke-2"
+                        />
+                        <ChartLegend
+                            content={<ChartLegendContent />}
+                            className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+                        />
+                    </RadialBarChart>
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
@@ -95,76 +186,37 @@ export function CourseChart({ CourseChartData, chartConfig }: CourseChartProps) 
 
 
 
-
-export function GenderDistributionChart({GenderChartData, chartConfig}: GenderChartProps) {
-  const totalVisitors = GenderChartData[0].male + GenderChartData[0].female
-
+export function EducationLevelChart({EducationLevelChartData, chartConfig}: EducationLevelChartProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Stacked</CardTitle>
+        <CardTitle>Pie Chart - Label List</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-1 items-center pb-0">
+      <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
+          className="mx-auto aspect-square max-h-[250px] [&_.recharts-text]:fill-background"
         >
-          <RadialBarChart
-            data={GenderChartData}
-            endAngle={180}
-            innerRadius={80}
-            outerRadius={130}
-          >
+          <PieChart>
             <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent nameKey="level" hideLabel />}
             />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) - 16}
-                          className="fill-foreground text-2xl font-bold"
-                        >
-                          {totalVisitors.toLocaleString()}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 4}
-                          className="fill-muted-foreground"
-                        >
-                          total
-                        </tspan>
-                      </text>
-                    )
-                  }
-                }}
+            <Pie data={EducationLevelChartData} dataKey="participants">
+              <LabelList
+                dataKey="participants"
+                className="fill-background"
+                stroke="none"
+                fontSize={12}
+                
               />
-            </PolarRadiusAxis>
-            <RadialBar
-              dataKey="male"
-              stackId="a"
-              cornerRadius={5}
-              fill="var(--color-male)"
-              className="stroke-transparent stroke-2"
-            />
-            <RadialBar
-              dataKey="female"
-              fill="var(--color-female)"
-              stackId="a"
-              cornerRadius={5}
-              className="stroke-transparent stroke-2"
-            />
+               
+            </Pie>
             <ChartLegend
-              content={<ChartLegendContent  />}
+              content={<ChartLegendContent nameKey="level" />}
               className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
             />
-          </RadialBarChart>
+          </PieChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
@@ -172,11 +224,9 @@ export function GenderDistributionChart({GenderChartData, chartConfig}: GenderCh
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total participants for the last 6 months
         </div>
       </CardFooter>
     </Card>
   )
 }
-
-
