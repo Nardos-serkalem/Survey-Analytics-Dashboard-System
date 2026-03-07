@@ -1,0 +1,1 @@
+from app.models.models import db, Respondent, Submission, Gender, Subcity, User, EducationLevel, EmploymentStatus, ConsentOption, LikertOption, TimeOption, FrequencyOption, CollectionArea, ProgramSource, TrainingFactor, InternetMethod, SocialPlatform, ParticipationBarrier, TrainingTopic, Motivator, DeliveryType, AuditLog

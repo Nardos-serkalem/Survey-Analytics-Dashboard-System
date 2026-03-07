@@ -1,0 +1,26 @@
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual envs
+venv/
+env/
+.venv/
+.env/
+
+# Env variables & secrets
+.env
+
+
+# Local db & Instance folder
+instance/
+*.db
+*.sqlite
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+

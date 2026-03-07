@@ -20,9 +20,39 @@ Defines all SQLAlchemy ORM models exactly matching the 3NF schema:
 """
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# AUTHENTICATION & USERS
+# ══════════════════════════════════════════════════════════════════════════════
+
+class User(db.Model):
+    """
+    Manages system users with role-based access control (RBAC).
+    Possible roles: 'admin', 'editor', 'viewer'.
+    """
+    __tablename__ = 'users'
+
+    user_id       = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username      = db.Column(db.String(50), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role          = db.Column(db.String(20), nullable=False, default='viewer')
+    last_login    = db.Column(db.DateTime)
+    created_at    = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f'<User {self.username} ({self.role})>'
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -410,7 +440,7 @@ class Submission(db.Model):
 
     submission_id           = db.Column(db.Integer,      primary_key=True, autoincrement=True)
     respondent_id           = db.Column(db.Integer,      db.ForeignKey('respondents.respondent_id'), nullable=False)
-    submitted_at            = db.Column(db.DateTime,     nullable=False, default=datetime.utcnow)
+    submitted_at            = db.Column(db.DateTime,     nullable=False, default=lambda: datetime.now(timezone.utc))
     consent_id              = db.Column(db.SmallInteger, db.ForeignKey('consent_options.consent_id'), nullable=False)
     likelihood_id           = db.Column(db.SmallInteger, db.ForeignKey('likert_options.likert_id'))           # Q14
     pref_time_id            = db.Column(db.SmallInteger, db.ForeignKey('time_options.time_id'))               # Q19
@@ -462,7 +492,7 @@ class AuditLog(db.Model):
     table_name = db.Column(db.String(60), nullable=False)
     operation  = db.Column(db.String(10), nullable=False)
     record_id  = db.Column(db.Integer)
-    changed_at = db.Column(db.DateTime,  nullable=False, default=datetime.utcnow)
+    changed_at = db.Column(db.DateTime,  nullable=False, default=lambda: datetime.now(timezone.utc))
     old_values = db.Column(db.JSON)
     new_values = db.Column(db.JSON)
 
