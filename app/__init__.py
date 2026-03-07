@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy_lite import SQLAlchemy
+from flask_cors import CORS
 from .model import Base
 from config import config_by_name
 
@@ -14,6 +15,12 @@ def create_app(env='dev'):
     
     config_obj = config_by_name.get(env, config_by_name['dev'])
     app.config.from_object(config_obj)
+    
+    # CORSssss
+    CORS(app, 
+         supports_credentials=True, 
+         origins=os.environ.get('ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173,http://localhost:8080').split(','))
+    
     app.config['PROPAGATE_EXCEPTIONS'] = True
     
     db_uri = app.config.get('SQLALCHEMY_DATABASE_URI')
