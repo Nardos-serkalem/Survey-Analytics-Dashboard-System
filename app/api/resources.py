@@ -1,5 +1,6 @@
 from flask_restful import Resource
-from app.models import db, Respondent
+from app import db
+from app.model import Participant
 from sqlalchemy import text
 from app.api.decorators import admin_required
 from app.services.analytics import AnalyticsService
@@ -24,10 +25,10 @@ class HealthCheck(Resource):
 class RespondentList(Resource):
     @admin_required
     def get(self):
-        respondents = Respondent.query.limit(10).all()
+        participants = db.session.query(Participant).limit(10).all()
         return {
-            'count': len(respondents),
-            'respondents': [{'id': r.respondent_id, 'age': r.age} for r in respondents]
+            'count': len(participants),
+            'respondents': [{'id': p.participant_id, 'age': p.age} for p in participants]
         }
 
 class AnalyticsOverview(Resource):
@@ -40,11 +41,6 @@ class AnalyticsDemographics(Resource):
     def get(self):
         return AnalyticsService.get_demographics()
 
-class AnalyticsEngagement(Resource):
-    @admin_required
-    def get(self):
-        return AnalyticsService.get_engagement_stats()
-
 class AnalyticsParticipation(Resource):
     @admin_required
     def get(self):
@@ -54,3 +50,13 @@ class AnalyticsPreferences(Resource):
     @admin_required
     def get(self):
         return AnalyticsService.get_training_preferences()
+
+class AnalyticsSources(Resource):
+    @admin_required
+    def get(self):
+        return AnalyticsService.get_source_stats()
+
+class AnalyticsDelivery(Resource):
+    @admin_required
+    def get(self):
+        return AnalyticsService.get_delivery_stats()

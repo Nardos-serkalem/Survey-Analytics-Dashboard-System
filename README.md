@@ -6,6 +6,11 @@ then create and setup the virtual envirinment
 ```bash
 python -m venv venv
 ```
+Activate the virtual environment
+```bash
+venv\Scripts\activate
+```
+
 install the requirement
 ```bash
 pip install -r requirements.txt

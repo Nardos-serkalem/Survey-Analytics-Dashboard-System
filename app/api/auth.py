@@ -4,19 +4,24 @@ from app.services.auth_service import AuthService
 
 class Login(Resource):
     def post(self):
-        data = request.get_json()
-        if not data or 'username' not in data or 'password' not in data:
-            return {'message': 'Missing username or password'}, 400
-        
-        user = AuthService.login(data['username'], data['password'])
-        if user:
-            return {
-                'message': f'Welcome {user.username}',
-                'role': user.role,
-                'status': 'success'
-            }, 200
-        
-        return {'message': 'Invalid credentials'}, 401
+        try:
+            data = request.get_json()
+            if not data or 'username' not in data or 'password' not in data:
+                return {'message': 'Missing username or password'}, 400
+            
+            user = AuthService.login(data['username'], data['password'])
+            if user:
+                return {
+                    'message': f'Welcome {user.username}',
+                    'role': user.role,
+                    'status': 'success'
+                }, 200
+            
+            return {'message': 'Invalid credentials'}, 401
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return {'message': f'Internal Server Error: {str(e)}'}, 500
 
 class Logout(Resource):
     def post(self):

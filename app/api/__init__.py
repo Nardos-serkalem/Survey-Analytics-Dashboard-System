@@ -9,8 +9,9 @@ from app.api.auth import Login, Logout, AuthStatus
 from app.api.resources import (
     HealthCheck, RespondentList, 
     AnalyticsOverview, AnalyticsDemographics, 
-    AnalyticsEngagement, AnalyticsParticipation,
-    AnalyticsPreferences
+    AnalyticsParticipation,
+    AnalyticsPreferences, AnalyticsSources, 
+    AnalyticsDelivery
 )
 
 api.add_resource(HealthCheck, '/health')
@@ -20,6 +21,7 @@ api.add_resource(AuthStatus, '/auth/status')
 api.add_resource(RespondentList, '/respondents')
 api.add_resource(AnalyticsOverview, '/analytics/overview')
 api.add_resource(AnalyticsDemographics, '/analytics/demographics')
-api.add_resource(AnalyticsEngagement, '/analytics/engagement')
 api.add_resource(AnalyticsParticipation, '/analytics/participation')
 api.add_resource(AnalyticsPreferences, '/analytics/preferences')
+api.add_resource(AnalyticsSources, '/analytics/sources')
+api.add_resource(AnalyticsDelivery, '/analytics/delivery')

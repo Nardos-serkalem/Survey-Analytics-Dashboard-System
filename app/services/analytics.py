@@ -1,16 +1,18 @@
-from app.models import (
-    db, Respondent, Gender, Subcity, EducationLevel, 
-    Submission, ProgramSource, InternetMethod, SocialPlatform, 
-    ParticipationBarrier, TrainingTopic, Motivator, TimeOption, FrequencyOption
+from app import db
+from app.model import (
+    Participant, Gender, Subcities, EducationLevel, 
+    Submissions, YneSources, InternetAccess, SocialMediaPlatforms, 
+    TrainingsBarriers, TrainingTopics, MotivationFactors, TimeOptions, FrequencyOptions,
+    DeliveryMethods
 )
 from sqlalchemy import func
 
 class AnalyticsService:
     @staticmethod
     def get_overview_kpis(): #kpi stands for 'Key Performance Indicator' its those big numbers and stuff on a card
-        total = db.session.query(func.count(Respondent.respondent_id)).scalar()
-        heard_yes = db.session.query(func.count(Respondent.respondent_id))\
-            .filter(Respondent.heard_of_program == True).scalar()
+        total = db.session.query(func.count(Participant.participant_id)).scalar()
+        heard_yes = db.session.query(func.count(Participant.participant_id))\
+            .filter(Participant.heard_about_yne == True).scalar()
         
         return {
             "total_respondents": total,
@@ -21,77 +23,74 @@ class AnalyticsService:
     @staticmethod
     def get_demographics():
         gender_data = db.session.query(
-            Gender.label, func.count(Respondent.respondent_id)
-        ).join(Respondent).group_by(Gender.label).all()
+            Gender.name, func.count(Participant.participant_id)
+        ).join(Participant).group_by(Gender.name).all()
         
         subcity_data = db.session.query(
-            Subcity.name, func.count(Respondent.respondent_id)
-        ).join(Respondent).group_by(Subcity.name).all()
+            Subcities.name, func.count(Participant.participant_id)
+        ).join(Participant).group_by(Subcities.name).all()
 
         edu_data = db.session.query(
-            EducationLevel.level, func.count(Respondent.respondent_id)
-        ).join(Respondent).group_by(EducationLevel.level).all()
+            EducationLevel.name, func.count(Participant.participant_id)
+        ).join(Participant).group_by(EducationLevel.name).all()
         
         return {
-            "genders": {label: count for label, count in gender_data},
+            "genders": {name: count for name, count in gender_data},
             "subcities": {name: count for name, count in subcity_data},
-            "education": {level: count for level, count in edu_data}
+            "education": {name: count for name, count in edu_data}
         }
 
     @staticmethod
-    def get_engagement_stats():
+    def get_source_stats():
         sources = db.session.query(
-            ProgramSource.label, func.count(Submission.submission_id)
-        ).join(Submission.program_sources).group_by(ProgramSource.label).all()
-
-        platforms = db.session.query(
-            SocialPlatform.label, func.count(Submission.submission_id)
-        ).join(Submission.social_platforms).group_by(SocialPlatform.label).all()
-
+            YneSources.name, func.count(Submissions.submission_id)
+        ).join(Submissions.yne_sources).group_by(YneSources.name).all()
         return {
-            "sources": {label: count for label, count in sources},
-            "platforms": {label: count for label, count in platforms}
+            "sources": {name: count for name, count in sources}
         }
 
     @staticmethod
     def get_participation_insights():
         barriers = db.session.query(
-            ParticipationBarrier.label, func.count(Submission.submission_id)
-        ).join(Submission.barriers).group_by(ParticipationBarrier.label).all()
+            TrainingsBarriers.name, func.count(Submissions.submission_id)
+        ).join(Submissions.training_barrier).group_by(TrainingsBarriers.name).all()
 
         motivators = db.session.query(
-            Motivator.label, func.count(Submission.submission_id)
-        ).join(Submission.motivators).group_by(Motivator.label).all()
-
+            MotivationFactors.name, func.count(Submissions.submission_id)
+        ).join(Submissions.motivators).group_by(MotivationFactors.name).all()
         return {
-            "top_barriers": {label: count for label, count in barriers},
-            "top_motivators": {label: count for label, count in motivators}
+            "top_barriers": {name: count for name, count in barriers},
+            "top_motivators": {name: count for name, count in motivators}
         }
 
     @staticmethod
     def get_training_preferences():
         topics = db.session.query(
-            TrainingTopic.label, func.count(Submission.submission_id)
-        ).join(Submission.topic_interests).group_by(TrainingTopic.label).all()
+            TrainingTopics.name, func.count(Submissions.submission_id)
+        ).join(Submissions.topic_interests).group_by(TrainingTopics.name).all()
 
         time_prefs = db.session.query(
-            TimeOption.label, func.count(Submission.submission_id)
-        ).join(Submission, Submission.pref_time_id == TimeOption.time_id)\
-            .group_by(TimeOption.label).all()
+            TimeOptions.name, func.count(Submissions.submission_id)
+        ).join(Submissions, Submissions.pref_time_id == TimeOptions.time_option_id)\
+            .group_by(TimeOptions.name).all()
 
         freq_prefs = db.session.query(
-            FrequencyOption.label, func.count(Submission.submission_id)
-        ).join(Submission, Submission.pref_frequency_id == FrequencyOption.freq_id)\
-            .group_by(FrequencyOption.label).all()
-
-        cert_data = db.session.query(
-            Submission.wants_certification, func.count(Submission.submission_id)
-        ).group_by(Submission.wants_certification).all()
+            FrequencyOptions.name, func.count(Submissions.submission_id)
+        ).join(Submissions, Submissions.pref_freq_id == FrequencyOptions.frequency_option_id)\
+            .group_by(FrequencyOptions.name).all()
 
         return {
-            "topics": {label: count for label, count in topics},
-            "timing": {label: count for label, count in time_prefs},
-            "frequency": {label: count for label, count in freq_prefs},
-            "certification": {str(val): count for val, count in cert_data}
+            "topics": {name: count for name, count in topics},
+            "timing": {name: count for name, count in time_prefs},
+            "frequency": {name: count for name, count in freq_prefs},
         }
-    
+
+    @staticmethod
+    def get_delivery_stats():
+        delivery = db.session.query(
+            DeliveryMethods.name, func.count(Submissions.submission_id)
+        ).join(Submissions.delivery_prefs).group_by(DeliveryMethods.name).all()
+        
+        return {
+            "delivery_methods": {name: count for name, count in delivery}
+        }

@@ -1,11 +1,15 @@
+import re
 import pandas as pd
 from app import db
 from app.model import FrequencyOptions, LikertOptions, ConsentOptions, DeliveryMethods, EducationLevel, EmploymentStatus, Gender, InternetAccess, MotivationFactors, Participant, SocialMediaPlatforms, Subcities, Submissions, TimeOptions, TrainingTopics, TrainingsBarriers, YneSources
 
 def seed_data():
+    if db.session.query(Participant).count() > 0:
+        print("✓ Database already seeded. Skipping...")
+        return
     df = pd.read_excel('app/data/survey_data.xlsx', header=1)
     df.rename(columns={df.columns[1]: "Consent"}, inplace=True)
-    print(df.columns.tolist())
+    #print(df.columns.tolist())
 
     for index, row in df.iterrows():
         gender = row['Gender']
@@ -95,9 +99,10 @@ def seed_data():
         db.session.flush()
 
         if pd.notna(row['If yes, how did you first learn about YNE? (Check all that apply)']):
-            ynesources = str(row['If yes, how did you first learn about YNE? (Check all that apply)']).split(",")
+            ynesources = re.split(r",\s*(?![^()]*\))", str(row['If yes, how did you first learn about YNE? (Check all that apply)']))
             for s in ynesources:
                 s = s.strip()
+                if not s: continue
                 option = db.session.query(YneSources).filter_by(name=s).first()
                 if not option:
                     option = YneSources(name=s)
@@ -105,10 +110,10 @@ def seed_data():
                     db.session.flush()
                 submission.yne_sources.append(option)
         if pd.notna(row['What would be the most significant barriers for you to participate in free training sessions? (Select all that apply)']):
-            training_barriers = str(row['What would be the most significant barriers for you to participate in free training sessions? (Select all that apply)']
-            ).split(",")
+            training_barriers = re.split(r",\s*(?![^()]*\))", str(row['What would be the most significant barriers for you to participate in free training sessions? (Select all that apply)']))
             for b in training_barriers:
                 b = b.strip()
+                if not b: continue
                 option = db.session.query(TrainingsBarriers).filter_by(name=b).first()
                 if not option:
                     option = TrainingsBarriers(name=b)
@@ -116,20 +121,21 @@ def seed_data():
                     db.session.flush()
                 submission.training_barrier.append(option)
         if pd.notna(row['How do you access the internet? (Select all that apply)']):
-            internet_access = str(row['How do you access the internet? (Select all that apply)']).split(",")
+            internet_access = re.split(r",\s*(?![^()]*\))", str(row['How do you access the internet? (Select all that apply)']))
             for i in internet_access:
                 i = i.strip()
+                if not i: continue
                 option = db.session.query(InternetAccess).filter_by(name=i).first()
                 if not option:
                     option = InternetAccess(name=i)
                     db.session.add(option)
                     db.session.flush()
-
                 submission.internet_access.append(option)
         if pd.notna(row['Which social media platforms have you used for online training purposes? (Select all that apply)']):
-            social_media = str(row['Which social media platforms have you used for online training purposes? (Select all that apply)']).split(",")
+            social_media = re.split(r",\s*(?![^()]*\))", str(row['Which social media platforms have you used for online training purposes? (Select all that apply)']))
             for i in social_media:
                 i = i.strip()
+                if not i: continue
                 option = db.session.query(SocialMediaPlatforms).filter_by(name=i).first()
                 if not option:
                     option = SocialMediaPlatforms(name=i)
@@ -137,9 +143,10 @@ def seed_data():
                     db.session.flush()
                 submission.social_media.append(option)
         if pd.notna(row['Would you be interested in training sessions on the following topics? (Select all that apply)']):
-            training_topics = str(row['Would you be interested in training sessions on the following topics? (Select all that apply)']).split(",")
+            training_topics = re.split(r",\s*(?![^()]*\))", str(row['Would you be interested in training sessions on the following topics? (Select all that apply)']))
             for i in training_topics:
                 i = i.strip()
+                if not i: continue
                 option = db.session.query(TrainingTopics).filter_by(name=i).first()
                 if not option:
                     option = TrainingTopics(name=i)
@@ -147,9 +154,10 @@ def seed_data():
                     db.session.flush()
                 submission.topic_interests.append(option)
         if pd.notna(row['What motivates you to consider joining a free training program? (Select all that apply)']):
-            motivation_factor = str(row['What motivates you to consider joining a free training program? (Select all that apply)']).split(",")
+            motivation_factor = re.split(r",\s*(?![^()]*\))", str(row['What motivates you to consider joining a free training program? (Select all that apply)']))
             for i in motivation_factor:
                 i = i.strip()
+                if not i: continue
                 option = db.session.query(MotivationFactors).filter_by(name=i).first()
                 if not option:
                     option = MotivationFactors(name=i)
@@ -157,9 +165,10 @@ def seed_data():
                     db.session.flush()
                 submission.motivators.append(option)
         if pd.notna(row['What type of training delivery do you prefer? (Select all that apply)']):
-            delivery_method = str(row['What type of training delivery do you prefer? (Select all that apply)']).split(",")
+            delivery_method = re.split(r",\s*(?![^()]*\))", str(row['What type of training delivery do you prefer? (Select all that apply)']))
             for i in delivery_method:
                 i = i.strip()
+                if not i: continue
                 option = db.session.query(DeliveryMethods).filter_by(name=i).first()
                 if not option:
                     option = DeliveryMethods(name=i)

@@ -1,11 +1,12 @@
 from datetime import datetime, timezone
 from flask import session
-from app.models import db, User
+from app import db
+from app.model import User
 
 class AuthService:
     @staticmethod
     def login(username, password):
-        user = User.query.filter_by(username=username).first()
+        user = db.session.query(User).filter_by(username=username).first()
         if user and user.check_password(password):
             user.last_login = datetime.now(timezone.utc)
             db.session.commit()

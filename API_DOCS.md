@@ -79,6 +79,21 @@ This API uses **Session-based Authentication**.
 }
 ```
 
+### 4. Participation Insights
+- **URL**: `/analytics/participation`
+- **Method**: `GET`
+- **Returns**: Top barriers and motivators.
+
+### 5. Detailed Sources
+- **URL**: `/analytics/sources`
+- **Method**: `GET`
+- **Purpose**: Get counts of where participants heard about YNE.
+
+### 6. Detailed Delivery
+- **URL**: `/analytics/delivery`
+- **Method**: `GET`
+- **Purpose**: Get preferences for training delivery methods (Online, Face-to-Face, etc).
+
 ---
 
 ## 🏥 System Health
