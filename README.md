@@ -8,7 +8,7 @@ python -m venv venv
 ```
 install the requirement
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 run the app
 ```bash
