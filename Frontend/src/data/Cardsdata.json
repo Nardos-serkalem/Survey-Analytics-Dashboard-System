@@ -1,0 +1,41 @@
+{
+    "cards": [
+        {
+            "id": 1,
+            "title": "Total Respondents",
+            "description": "This is the description for Total Respondents.",
+            "value": 256,
+            "icon": "FaUsers",
+            "color": "bg-blue-500",
+            "textColor": "text-white"
+
+
+        },
+        {
+            "id": 2,
+            "title": "demographics",
+            "description": "This is the description for demographics.",
+            "Students": 128,
+            "employed": 64,
+            "unemployed": 32,
+            "icon": "FaUserFriends"
+        },
+        {
+            "id": 3,
+            "title": "Location Distribution", 
+            "description": "This is the description for Location Distribution.",
+            "Yeka": {
+                "count": 100,
+                "percentage": 39.1
+            },
+            "bole": {
+                "count": 100,
+                "percentage": 39.1
+            },
+            "addis ketema": {
+                "count": 56,
+                "percentage": 21.8
+            }
+        }
+    ]
+}
