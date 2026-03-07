@@ -1,14 +1,14 @@
 from flask import Flask
-from config import config_by_name
-from app.models import db
+from flask_sqlalchemy_lite import SQLAlchemy
+from .model import Base
 
-def create_app(config_name):
+db = SQLAlchemy()
+
+def create_app(env='dev'):
     app = Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
+    app.config['SQLALCHEMY_ENGINES'] = {'default': 'sqlite:///yne_survey.db'}
+    app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_ENGINES']['default']
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    db.init_app(app)
-    
-    from app.api import api_bp
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
-    
+    db.init_app(app) 
     return app
