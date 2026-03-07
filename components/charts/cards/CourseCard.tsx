@@ -1,7 +1,7 @@
-import { getAgeDistribution, getCourses, getEducationLevel, getGender, getSubCity } from "@/lib/actions/api.actions"
+import { getAgeDistribution, getCourses, getEducationLevel, getGender, getSubCity, preferenceOverview } from "@/lib/actions/api.actions"
 import { CourseChart, EducationLevelChart, GenderDistributionChart } from "../PieChart";
 import { ChartConfig } from "@/components/ui/chart";
-import { AgeDistributionChart, SubCityChart } from "../BarCharts";
+import { AgeDistributionChart, PreferenceChart, SubCityChart } from "../BarCharts";
 
 export const GenderDistributionCard = async () => {
     const gender = await getGender();
@@ -36,6 +36,60 @@ export const CoursePreferenceCard = async () => {
 
     return <CourseChart CourseChartData={CourseChartData} chartConfig={chartConfig} />
 }
+export const PreferenceOverviewCard = async () => {
+    const { time, platform, session } = await preferenceOverview();
+
+    // Prepare chart data
+    const chartData = [
+        {
+            category: "Session",
+            ...session.reduce((acc, item) => {
+                acc[item.type] = item.value;
+                return acc;
+            }, {} as Record<string, number>),
+        },
+        {
+            category: "Time",
+            ...time.reduce((acc, item) => {
+                acc[item.type] = item.value;
+                return acc;
+            }, {} as Record<string, number>),
+        },
+        {
+            category: "Platform",
+            ...platform.reduce((acc, item) => {
+                acc[item.type] = item.value;
+                return acc;
+            }, {} as Record<string, number>),
+        },
+    ];
+
+    // Flatten all items to create chartConfig
+    const allItems = [...time, ...platform, ...session];
+
+    const chartConfig: ChartConfig = allItems.reduce((acc, item, index) => {
+        if (!acc[item.type]) {
+            acc[item.type] = {
+                label: item.type,
+                color: `var(--chart-${index})`,
+            };
+        }
+        return acc;
+    }, {
+        participants: { label: "participants", color: "var(--chart-0)" },
+    } as ChartConfig);
+
+    return (
+        <PreferenceChart
+            PreferenceChartData={chartData}
+            chartConfig={chartConfig}
+        />
+    );
+};
+
+
+
+
 export const EducationLevelCard = async () => {
     const educationLevelData = await getEducationLevel();
     const EducationLevelChartData = educationLevelData.map((education) => ({

@@ -1,8 +1,8 @@
 export { }
-declare  global{
-    type Gender={
-        id:string,
-        month:string,
+declare global {
+    type Gender = {
+        id: string,
+        month: string,
         male: number,
         female: number
     }
@@ -47,7 +47,7 @@ declare global {
     type EducationLevel = {
         level: string,
         participants: number,
-        fill:string
+        fill: string
     }
 }
 declare global {
@@ -56,6 +56,22 @@ declare global {
         chartConfig: ChartConfig;
     };
 }
+//preference
+declare global {
+    type PreferenceItem = {
+        type: string;
+        value: number;
+    };
+}
+
+declare global {
+    type PreferenceOverview = {
+        time: PreferenceItem[];
+        platform: PreferenceItem[];
+        session: PreferenceItem[];
+    };
+}
+
 
 
 //subCity

@@ -33,6 +33,26 @@ export const getEducationLevel = async (): Promise<EducationLevel[]> => {
        return[]
     }
 }
+export const preferenceOverview = async (): Promise<PreferenceOverview> => {
+  try {
+    const [time, platform, session] = await Promise.all([
+      fetch("http://localhost:3002/time", { cache: "no-store" }).then(
+        (res) => res.json() as Promise<PreferenceItem[]>
+      ),
+      fetch("http://localhost:3002/platform", { cache: "no-store" }).then(
+        (res) => res.json() as Promise<PreferenceItem[]>
+      ),
+      fetch("http://localhost:3002/session", { cache: "no-store" }).then(
+        (res) => res.json() as Promise<PreferenceItem[]>
+      ),
+    ]);
+    return { time, platform, session };
+  } catch (err) {
+    console.error("failed to fetch preference overview", err);
+    return { time: [], platform: [], session: [] };
+  }
+};
+
 export const getSubCity = async(): Promise<SubCity[]>=>{
     try{
      const res = await fetch("http://localhost:3002/subCity", {cache :"no-store"});

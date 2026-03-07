@@ -114,14 +114,57 @@ export function AgeDistributionChart({ageData, chartConfig} : AgeDistributionCha
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   )
+}
+
+interface PreferenceChartProps {
+  PreferenceChartData: Record<string, any>[];
+  chartConfig: ChartConfig;
+}
+
+export function PreferenceChart({
+  PreferenceChartData,
+  chartConfig,
+}: PreferenceChartProps) {
+
+  console.log(PreferenceChartData);
+  
+  const dataKeys = Object.keys(chartConfig).filter((key) => key !== "participants");
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle>Preference Overview</CardTitle>
+        <CardDescription>Session, Time, and Platform Preferences</CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <BarChart accessibilityLayer data={PreferenceChartData}>
+            <CartesianGrid vertical={true} />
+
+            <XAxis dataKey="category" tickLine={true} tickMargin={20} axisLine={true} />
+            <YAxis domain={[0, "auto"]} type="number" />
+
+            <ChartTooltip cursor={true} content={<ChartTooltipContent indicator="dashed" />} />
+
+            {/* Dynamically render bars */}
+            {dataKeys.map((key) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                fill={chartConfig[key].color}
+                radius={4}
+              />
+            ))}
+
+            <ChartLegend
+              content={<ChartLegendContent  />}
+              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+            />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
 }
